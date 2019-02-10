@@ -1,12 +1,7 @@
-const Discord = require('discord.js'); // by Artemka076#6715
+const Discord = require('discord.js'); 
 const bot = new Discord.Client();
 const fs = require("fs");
-const Logger = require('./objects/logger');
-
-let requests = JSON.parse(fs.readFileSync("./database/requests.json", "utf8"));
-let blacklist = JSON.parse(fs.readFileSync("./database/blacklist names.json", "utf8"));
-let reqrem = JSON.parse(fs.readFileSync("./database/requests remove.json", "utf8"));
-
+ 
 let version = "8.0";
 let hideobnova = true;
 let levelhigh = 0;
@@ -27,7 +22,7 @@ let setembed_general = ["не указано", "не указано", "не ук
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 let setembed_addline = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 
-let serverid = '355656045600964609'
+let serverid = '543500237306724393'
 
 punishment_rep = ({
     "mute": "Вы были замучены в текстовых каналах.",
@@ -35,34 +30,33 @@ punishment_rep = ({
 })
 
 tags = ({
-    "ПРА-ВО": "⋆ The Board of State ⋆",
-    "ГЦЛ": "⋆ The Board of State ⋆",
-    "АШ": "⋆ The Board of State ⋆",
-    "ЦБ": "⋆ The Board of State ⋆",
+    "ПРА-ВО": "Сотрудник Правительства",
+    "АШ": "Сотрудник Автошколы",
+    "ЦБ": "Сотрудник банка",
 
-    "FBI": "⋆ Department of Justice ⋆",
-    "ФБР": "⋆ Department of Justice ⋆",
-    "LSPD": "⋆ Department of Justice ⋆",
-    "ЛСПД": "⋆ Department of Justice ⋆",
-    "SFPD": "⋆ Department of Justice ⋆",
-    "СФПД": "⋆ Department of Justice ⋆",
-    "LVPD": "⋆ Department of Justice ⋆",
-    "ЛВПД": "⋆ Department of Justice ⋆",
-    "SWAT": "⋆ Department of Justice ⋆",
-    "СВАТ": "⋆ Department of Justice ⋆",
-    "RCPD": "⋆ Department of Justice ⋆",
-    "РКПД": "⋆ Department of Justice ⋆",
+    "FBI": "Сотрудник ФБР",
+    "ФБР": "Сотрудник ФБР",
+    "LSPD": "Сотрудник LSPD",
+    "ЛСПД": "Сотрудник LSPD",
+    "SFPD": "Сотрудник SFPD",
+    "СФПД": "Сотрудник SFPD",
+    "LVPD": "Сотрудник LVPD",
+    "ЛВПД": "Сотрудник LVPD",
+    "SWAT": "Сотрудник SWAT",
+    "СВАТ": "Сотрудник SWAT",
+    "RCPD": "Сотрудник RCSD",
+    "РКПД": "Сотрудник RCSD",
 
-    "LSA": "⋆ Department of Defence ⋆",
-    "ЛСА": "⋆ Department of Defence ⋆",
-    "SFA": "⋆ Department of Defence ⋆",
-    "СФА": "⋆ Department of Defence ⋆",
-    "LS-A": "⋆ Department of Defence ⋆",
-    "ЛС-А": "⋆ Department of Defence ⋆",
-    "SF-A": "⋆ Department of Defence ⋆",
-    "СФ-А": "⋆ Department of Defence ⋆",
-    "ТСР": "⋆ Department of Defence ⋆",
-    "ТЮРЬМА": "⋆ Department of Defence ⋆",
+    "LSA": "Военнослужащий LSa",
+    "ЛСА": "Военнослужащий LSa",
+    "SFA": "Военнослужащий SFa",
+    "СФА": "Военнослужащий SFa",
+    "LS-A": "Военнослужащий LSa",
+    "ЛС-А": "Военнослужащий LSa",
+    "SF-A": "Военнослужащий SFa",
+    "СФ-А": "Военнослужащий SFa",
+    "ТСР": "Военнослужащий ТСР",
+    "ТЮРЬМА": "Военнослужащий ТСР",
 
     "LSMC": "⋆ Department of Health ⋆",
     "ЛСМЦ": "⋆ Department of Health ⋆",
@@ -179,7 +173,7 @@ let manytags = [
 "NW",
 "НВ",
 ];
-let rolesgg = ["⋆ The Board of State ⋆", "⋆ Department of Justice ⋆", "⋆ Department of Defence ⋆", "⋆ Department of Health ⋆", "⋆ Mass Media ⋆", "⋆ Warlock MC ⋆", "⋆ Russian Mafia ⋆", "⋆ La Cosa Nostra ⋆", "⋆ Yakuza ⋆", "⋆ Grove Street Gang ⋆", "⋆ East Side Ballas Gang ⋆", "⋆ Vagos Gang ⋆", "⋆ Aztecas Gang ⋆", "⋆ Rifa Gang ⋆", "⋆ Night Wolfs ⋆"]
+let rolesgg = ["Полиция", "Полиция", "Военнослужащий", "⋆ Department of Health ⋆", "⋆ Mass Media ⋆", "⋆ Warlock MC ⋆", "⋆ Russian Mafia ⋆", "⋆ La Cosa Nostra ⋆", "⋆ Yakuza ⋆", "⋆ Grove Street Gang ⋆", "⋆ East Side Ballas Gang ⋆", "⋆ Vagos Gang ⋆", "⋆ Aztecas Gang ⋆", "⋆ Rifa Gang ⋆", "⋆ Night Wolfs ⋆"]
 let canremoverole = ["✫Deputy Leader✫", "✵Leader✵", "✮Ministers✮", "✔ Helper ✔"];
 
 const events = {
@@ -258,7 +252,7 @@ fbi_dostup.add("308604330246799360");
 bot.login(process.env.token);
 bot.on('ready', () => {
     console.log("Бот был успешно запущен!");
-    bot.user.setPresence({ game: { name: 'hacker' }, status: 'idle' })
+    bot.user.setPresence({ game: { name: 'тебя' }, status: 'online' })
 });
 
 // Система удаленного управления ботом для отключения,фиксов багов и т.д.
@@ -556,7 +550,7 @@ bot.on('message', async message => {
             }
             if (!args[2]) return message.delete();
             if (!args[3]) return message.delete();
-            if (args[2] != "493459379878625320" && args[2] != "521639035442036736"){
+            if (args[2] != "543862677328494612" && args[2] != ""){
                 message.channel.send(`\`[ERROR]\` ${message.member} \`сервер '${args[2]}' не назначен как БД.\``);
                 return message.delete();
             }
@@ -597,7 +591,7 @@ bot.on('message', async message => {
             if (!args[3]) return message.delete();
             if (!args[4]) return message.delete();
             if (!args[5]) return message.delete();
-            if (args[2] != "493459379878625320" && args[2] != "521639035442036736"){
+            if (args[2] != "543862677328494612" && args[2] != "123"){
                 message.channel.send(`\`[ERROR]\` ${message.member} \`сервер '${args[2]}' не назначен как БД.\``);
                 return message.delete();
             }
@@ -649,7 +643,7 @@ bot.on('message', async message => {
             if (!args[2]) return message.delete();
             if (!args[3]) return message.delete();
             if (!args[4]) return message.delete();
-            if (args[2] != "493459379878625320" && args[2] != "521639035442036736"){
+            if (args[2] != "543862677328494612" && args[2] != "123"){
                 message.channel.send(`\`[ERROR]\` ${message.member} \`сервер '${args[2]}' не назначен как БД.\``);
                 return message.delete();
             }
@@ -688,9 +682,9 @@ bot.on('message', async message => {
 // Система тут оканчивается.
 
 bot.on('message', async message => {
-    if (message.channel.type == "dm") return // Если в ЛС, то выход.
-    if (message.guild.id != serverid && message.guild.id != "493459379878625320") return
-    if (message.type === "PINS_ADD") if (message.channel.name == "requests-for-roles") message.delete();
+    if (message.channel.type == "dm") return // Если в ЛС, то выход.543500237306724393 // 543862677328494612
+    if (message.guild.id != serverid && message.guild.id != "543500237306724393") return
+    if (message.type === "PINS_ADD") if (message.channel.name == "выдача-ролей") message.delete();
     if (message.content == "/ping") return message.reply("`я онлайн!`") && console.log(`Бот ответил ${message.member.displayName}, что я онлайн.`)
     if (message.author.id == bot.user.id) return
     if (message.content.startsWith("-+ban")) lasttestid = message.author.id;
@@ -698,7 +692,7 @@ bot.on('message', async message => {
     let re = /(\d+(\.\d)*)/i;
 	
     const authorrisbot = new Discord.RichEmbed()
-    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+    .setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
     
     if (!support_loop.has(message.guild.id) && message.channel.name != "support"){
         support_loop.add(message.guild.id)
@@ -712,7 +706,7 @@ bot.on('message', async message => {
                     channel.fetchMessages({limit: 1}).then(async messages => {
                         if (messages.size == 1){
                             messages.forEach(async msg => {
-                                let s_now = new Date().valueOf() - 86400000;
+                                let s_now = new Date().valueOf() - 86400000; // 86400000
                                 if (msg.createdAt.valueOf() < s_now){
                                     let archive_messages = [];
                                     await channel.fetchMessages({limit: 100}).then(async messagestwo => {
@@ -762,7 +756,7 @@ bot.on('message', async message => {
             }
         });
         // UNWARN SYSTEM
-        let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
+        let dataserver = bot.guilds.find(g => g.id == "543862677328494612");
         dataserver.channels.forEach(async channel => {
             if (channel.type=="text"){
                 if (channel.name != 'administration' && channel.name != 'accounts' && channel.name != 'bad-words' && channel.name != 'err-code' && channel.name != 'config'){
@@ -837,7 +831,7 @@ bot.on('message', async message => {
         }, 300000);
         let id_mm;
         let rep_message;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_channel = db_server.channels.find(c => c.name == "config");
         await db_channel.fetchMessages().then(async messages => {
             let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
@@ -850,7 +844,7 @@ bot.on('message', async message => {
         });
         if (!rep_message){
             await message.channel.send(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Red-Rock!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: 0**\n` +
             `**Необработанных модераторами: 0**\n` +
@@ -866,10 +860,10 @@ bot.on('message', async message => {
         info_rep.push(rep_message.content.split('\n')[5].match(re)[0]);
         info_rep.push(rep_message.content.split('\n')[6].match(re)[0]);
 	const imageemb = new Discord.RichEmbed()
-	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+	.setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Red-Rock!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${+info_rep[0] + 1}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] + 1}**\n` +
@@ -964,7 +958,7 @@ bot.on('message', async message => {
             }
         });
         let rep_message;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_channel = db_server.channels.find(c => c.name == "config");
         await db_channel.fetchMessages().then(async messages => {
             let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
@@ -983,10 +977,10 @@ bot.on('message', async message => {
         info_rep.push(rep_message.content.split('\n')[5].match(re)[0]);
         info_rep.push(rep_message.content.split('\n')[6].match(re)[0]);
 	const imageemb = new Discord.RichEmbed()
-	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+	.setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-        `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+        `**Приветствую! Вы попали в канал поддержки сервера Red-Rock!**\n` +
         `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
         `**Количество вопросов за все время: ${info_rep[0]}**\n` +
         `**Необработанных модераторами: ${+info_rep[1] - 1}**\n` +
@@ -1040,17 +1034,17 @@ bot.on('message', async message => {
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
         let textforobz = "**  ╔┓┏╦━━╦┓╔┓╔━━╗ @everyone\n  ║┗┛║┗━╣┃║┃║╯╰║ @everyone\n  ║┏┓║┏━╣┗╣┗╣╰╯║ @everyone\n  ╚┛┗╩━━╩━╩━╩━━╝ @everyone**";
         const embed = new Discord.RichEmbed()
-	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+	.setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
         .setTitle("**Заявления на пост модератора группы**")
         .setColor("#FF8E01")
-        .setDescription("**Мы вернулись, что бы обрадовать вас! Ведь " + args[1] + " " + args[2] + " пройдет набор на пост Spectator'a нашей группы Discord!\nВы сможете стать одним из нас, почуствовать себя в роли модератора группы, последить за игроками, а так же получить доступ к супер секретным функциям канала Scottdale Brotherhood. Все, что вам нужно будет делать, это наводить порядок в нашей группе и помогать игрокам!**")
-        .setFooter("Предоставил: Kory_McGregor", "https://cdn.discordapp.com/avatars/336207279412215809/211ab8ef6f7b4dfd9d3bfbf45999eea0.png?size=128")
+        .setDescription("**Мы вернулись, что бы обрадовать вас! Ведь " + args[1] + " " + args[2] + " пройдет набор на пост Spectator'a нашей группы Discord!\nВы сможете стать одним из нас, почуствовать себя в роли модератора группы, последить за игроками, а так же получить доступ к супер секретным функциям канала Red-Rock. Все, что вам нужно будет делать, это наводить порядок в нашей группе и помогать игрокам!**")
+        .setFooter("Предоставил: Шонушка Фрей", "https://cdn.discordapp.com/avatars/336207279412215809/211ab8ef6f7b4dfd9d3bfbf45999eea0.png?size=128")
         .setImage("https://i.imgur.com/nFD61xf.gif")
         .setTimestamp()
         .addBlankField(false)
         .addField("**Что нужно, что бы попасть к нам?**", `**1) Вам нужно будет знать правила нашего discord-сервера! Если вы хотите стать модератором, то вы должны знать за что идут наказания? Не правда ли?\n2) Вам нужно понимать систему модерирования. Ведь просто ходить по каналам и орать на нарушителя "Прекрати!" будет выглядить глупо.\n3) Наметить себе будущую должность. Один модератор не может за всем уследить, кто-то может следить за чатом, когда другой сидит в канале и поет песни для наших участников сервера Discord.\n4) Быть дружелюбным и разумным! Одна из самых главных особенностей! Мы же помогаем игрокам! И даже если у них поломается биндер и они нафлудят в чат, более разумным будет удалить сообщение от пользователя, чем выдать мут за флуд!\n5) Не делать того, что не нужно! В будущем вы можете модерировать свой текстовой канал! ~~И делать обзвоны на редактора канала.~~ Стоп-стоп-стоп.. Зачем? Вы не справляетесь? Вам нужно лишнее внимание?! Пожалуй этого делать не стоит!**`)
         .addBlankField(false)
-        .addField("**Требования к участникам**", "**1) Не состоять в черном списке Scottdale [!]\n2) Быть активным участником нашей группы.\n3) У вас не должно быть грубых нарушений.\n4) Быть адекватным, коммуникабельным, ответственным.\n5) Не быть действующим лидером, министром, администратором.**")
+        .addField("**Требования к участникам**", "**1) Не состоять в черном списке Red-Rock [!]\n2) Быть активным участником нашей группы.\n3) У вас не должно быть грубых нарушений.\n4) Быть адекватным, коммуникабельным, ответственным.\n5) Не быть действующим лидером, министром, администратором.**")
         .addBlankField(false)
         .addField("**Дополнительные ссылки**", "**Оставить заявление вы можете нажав на [выделенный текст](" + args[3] + ").**");
         message.channel.send(textforobz, {embed});
@@ -1068,7 +1062,7 @@ bot.on('message', async message => {
             }
         });
         let rep_message;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_channel = db_server.channels.find(c => c.name == "config");
         await db_channel.fetchMessages().then(async messages => {
             let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
@@ -1087,10 +1081,10 @@ bot.on('message', async message => {
         info_rep.push(rep_message.content.split('\n')[5].match(re)[0]);
         info_rep.push(rep_message.content.split('\n')[6].match(re)[0]);
 	const imageemb = new Discord.RichEmbed()
-	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+	.setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Red-Rock!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] + 1}**\n` +
@@ -1207,7 +1201,7 @@ bot.on('message', async message => {
             }
         });
         let rep_message;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_channel = db_server.channels.find(c => c.name == "config");
         await db_channel.fetchMessages().then(async messages => {
             let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
@@ -1226,11 +1220,11 @@ bot.on('message', async message => {
         info_rep.push(rep_message.content.split('\n')[5].match(re)[0]);
         info_rep.push(rep_message.content.split('\n')[6].match(re)[0]);
 	let imageemb = new Discord.RichEmbed()
-	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+	.setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
         .setImage("https://imgur.com/LKDbJeM.gif");
         if (message.channel.topic == 'Жалоба на рассмотрении.'){
             rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Red-Rock!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${info_rep[1]}**\n` +
@@ -1238,7 +1232,7 @@ bot.on('message', async message => {
             `**Закрытых: ${+info_rep[3] + 1}**`, imageemb)
         }else{
             rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Red-Rock!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] - 1}**\n` +
@@ -1305,23 +1299,23 @@ bot.on('message', async message => {
             message.reply(`\`я не смог отправить сообщение.. Создателя данного бота нет на данном сервере.\``).then(msg => msg.delete(15000));
             return message.delete()
         }
-        author_bot.send(`**Привет, Kory_McGregor! Пользователь <@${message.author.id}> \`(${message.author.id})\` отправил запрос с сервера \`${message.guild.name}\` \`(${message.guild.id})\`.**\n` +
+        author_bot.send(`**Привет, Шонушка Фрей! Пользователь <@${message.author.id}> \`(${message.author.id})\` отправил запрос с сервера \`${message.guild.name}\` \`(${message.guild.id})\`.**\n` +
         `**Суть обращения:** ${bugreport}`);
         message.reply(`\`хэй! Я отправил твое сообщение на рассмотрение моему боссу робохомячков!\``).then(msg => msg.delete(15000));
         return message.delete();
     }
 
-    let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
-    let scottdale = bot.guilds.find(g => g.id == "355656045600964609");
+    let dataserver = bot.guilds.find(g => g.id == "543862677328494612");
+    let scottdale = bot.guilds.find(g => g.id == "543500237306724393");
     if (!dataserver){
-        message.channel.send(`\`Data-Server of Scottdale не был загружен!\nПередайте это сообщение техническим администраторам Discord:\`<@336207279412215809>, <@402092109429080066>`)
+        message.channel.send(`\`Data-Server of Red-Rock не был загружен!\nПередайте это сообщение техническим администраторам Discord:\`<@336207279412215809>, <@402092109429080066>`)
         console.error(`Процесс завершен. Data-Server не найден.`)
         return bot.destroy();
     }
 	
     if (message.content.startsWith("/setup")){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1436,7 +1430,7 @@ bot.on('message', async message => {
 	
     if (message.content == '/embhelp'){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1497,7 +1491,7 @@ bot.on('message', async message => {
 
     if (message.content.startsWith("/embsetup")){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1566,7 +1560,7 @@ bot.on('message', async message => {
 
     if (message.content.startsWith("/embfield")){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1648,7 +1642,7 @@ bot.on('message', async message => {
 
     if (message.content == "/embsend"){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1723,7 +1717,7 @@ if (message.content.startsWith("/mwarn")){
     message.reply(`\`ошибка выполнения! Вы использовали запрещенный символ!\``).then(msg => msg.delete(9000));
     return message.delete();
   }
-  let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+  let db_server = bot.guilds.find(g => g.id == "543862677328494612");
   let db_parent = db_server.channels.find(c => c.name == 'db_users');
   let acc = db_server.channels.find(c => c.name == user.id);
   if (!acc){
@@ -1892,7 +1886,7 @@ if (message.content.startsWith("/unwarn")){
       message.reply(`\`модератору нельзя снимать предупреждения!\``).then(msg => msg.delete(9000));
       return message.delete();
     }
-    let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
+    let dataserver = bot.guilds.find(g => g.id == "543862677328494612");
     let report_channel = dataserver.channels.find(c => c.name == user.id);
     if (!report_channel){
       message.reply(`\`у пользователя нет предупреждений!\``).then(msg => msg.delete(9000));
@@ -1963,7 +1957,7 @@ if (message.content.startsWith("/unwarn")){
       message.reply(`\`недостаточно прав доступа к данному разделу!\``).then(msg => msg.delete(9000));
       return message.delete();
     }
-    let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
+    let dataserver = bot.guilds.find(g => g.id == "543862677328494612");
     let report_channel = dataserver.channels.find(c => c.name == user.id);
     if (!report_channel){
       message.reply(`\`у пользователя нет предупреждений!\``).then(msg => msg.delete(9000));
@@ -2037,7 +2031,7 @@ if (message.content.startsWith("/getmwarns")){
     return message.delete();
   }
   if (user.id == message.author.id){
-    let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+    let db_server = bot.guilds.find(g => g.id == "543862677328494612");
     let acc = db_server.channels.find(c => c.name == user.id);
     if (!acc){
       message.reply(`\`у вас нет текущих предупреждений.\``).then(msg => msg.delete(12000));
@@ -2089,7 +2083,7 @@ if (message.content.startsWith("/getmwarns")){
       message.reply(`\`у вас нет прав модератора для просмотра чужой статистики.\``, authorrisbot).then(msg => msg.delete(7000));
       return message.delete();
     }
-    let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+    let db_server = bot.guilds.find(g => g.id == "543862677328494612");
     let acc = db_server.channels.find(c => c.name == user.id);
     if (!acc){
       message.reply(`\`у пользователя нет предупреждений.\``).then(msg => msg.delete(12000));
@@ -2146,7 +2140,7 @@ if (message.content.startsWith("/getwarns")){
     return message.delete();
   }
   if (user.id == message.author.id){
-    let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+    let db_server = bot.guilds.find(g => g.id == "543862677328494612");
     let acc = db_server.channels.find(c => c.name == user.id);
     if (!acc){
       message.reply(`\`у вас нет текущих предупреждений.\``).then(msg => msg.delete(12000));
@@ -2205,7 +2199,7 @@ if (message.content.startsWith("/getwarns")){
       message.reply(`\`у вас нет прав модератора для просмотра чужой статистики.\``, authorrisbot).then(msg => msg.delete(7000));
       return message.delete();
     }
-    let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+    let db_server = bot.guilds.find(g => g.id == "543862677328494612");
     let acc = db_server.channels.find(c => c.name == user.id);
     if (!acc){
       message.reply(`\`у пользователя нет предупреждений.\``).then(msg => msg.delete(12000));
@@ -2290,7 +2284,7 @@ if (message.content.startsWith("/warn")){
     message.reply(`\`ошибка выполнения! Вы использовали запрещенный символ!\``).then(msg => msg.delete(9000));
     return message.delete();
   }
-  let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+  let db_server = bot.guilds.find(g => g.id == "543862677328494612");
   let db_parent = db_server.channels.find(c => c.name == 'db_users');
   let acc = db_server.channels.find(c => c.name == user.id);
   if (!acc){
@@ -2385,7 +2379,7 @@ if (message.content.startsWith("/warn")){
             return message.delete();
         }
         let password = args.slice(1).join(" ");
-        if (password != `${message.author.id[0]}${message.author.id}${message.author.id[1]} 2783652 SCOTTDALE`) return message.delete();
+        if (password != `${message.author.id[0]}${message.author.id}${message.author.id[1]} 2783652 Red-Rock`) return message.delete();
         message.reply(`\`успешно авторизован в системе.\``);
         dspanel.add(message.author.id);
         return message.delete();
@@ -2456,7 +2450,7 @@ if (message.content.startsWith("/warn")){
         await message.guild.channels.filter(async channel => {
             if (channel.name == familyname){
                 if (channel.type == "voice"){
-                    if (channel.parent.name.toString() == `Family ROOMS`){
+                    if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                         family_channel = channel;
                         await channel.permissionOverwrites.forEach(async perm => {
                             if (perm.type == `role`){
@@ -2480,7 +2474,7 @@ if (message.content.startsWith("/warn")){
                 }
             }else if(channel.name.includes(familyname)){
                 if (channel.type == "voice"){
-                    if (channel.parent.name.toString() == `Family ROOMS`){
+                    if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                         family_channel = channel;
                         await channel.permissionOverwrites.forEach(async perm => {
                             if (perm.type == `role`){
@@ -2572,7 +2566,7 @@ if (message.content.startsWith("/warn")){
                         await message.guild.channels.filter(async channel => {
                             if (channel.name == family_name){
                                 if (channel.type == "voice"){
-                                    if (channel.parent.name.toString() == `Family ROOMS`){
+                                    if (channel.parent.name.toString() == `Команатки для раздеваний`){
                                         family_channel = channel;
                                         await channel.permissionOverwrites.forEach(async perm => {
                                             if (perm.type == `role`){
@@ -2593,10 +2587,10 @@ if (message.content.startsWith("/warn")){
 
                         let family_role = await message.guild.createRole({
                             name: `${family_name}`,
-                            position: message.guild.roles.find(r => r.name == `[-] Прочее [-]`).position + 1,
+                            position: message.guild.roles.find(r => r.name == `BOT`).position + 1,
                         })
                         await message.guild.createChannel(`${family_name}`, "voice").then(async (channel) => {
-                            await channel.setParent(message.guild.channels.find(c => c.name == `Family ROOMS`))
+                            await channel.setParent(message.guild.channels.find(c => c.name == `Команатки для раздеваний`))
                             await channel.overwritePermissions(family_role, {
                                 // GENERAL PERMISSIONS
                                 CREATE_INSTANT_INVITE: false,
@@ -2723,7 +2717,7 @@ if (message.content == '/archive'){
         let families = [];
         message.guild.channels.filter(async channel => {
             if (channel.type == "voice"){
-                if (channel.parent.name.toString() == `Family ROOMS`){
+                if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                     await channel.permissionOverwrites.forEach(async perm => {
                         if (perm.type == `member`){
                             if (perm.allowed.toArray().some(r => r == `PRIORITY_SPEAKER`)){
@@ -2750,7 +2744,7 @@ if (message.content == '/archive'){
             await message.guild.channels.filter(async channel => {
                 if (channel.name == families[0]){
                     if (channel.type == "voice"){
-                        if (channel.parent.name.toString() == `Family ROOMS`){
+                        if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                             await channel.permissionOverwrites.forEach(async perm => {
                                 if (perm.type == `role`){
                                     let role_fam = message.guild.roles.find(r => r.id == perm.id);
@@ -2802,7 +2796,7 @@ if (message.content == '/archive'){
             await message.guild.channels.filter(async channel => {
                 if (channel.name == families[args[2]]){
                     if (channel.type == "voice"){
-                        if (channel.parent.name.toString() == `Family ROOMS`){
+                        if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                             await channel.permissionOverwrites.forEach(async perm => {
                                 if (perm.type == `role`){
                                     let role_fam = message.guild.roles.find(r => r.id == perm.id);
@@ -2844,7 +2838,7 @@ if (message.content == '/archive'){
         let families = [];
         message.guild.channels.filter(async channel => {
             if (channel.type == "voice"){
-                if (channel.parent.name.toString() == `Family ROOMS`){
+                if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                     await channel.permissionOverwrites.forEach(async perm => {
                         if (perm.type == `member`){
                             if (perm.allowed.toArray().some(r => r == `PRIORITY_SPEAKER`)){
@@ -2871,7 +2865,7 @@ if (message.content == '/archive'){
             await message.guild.channels.filter(async channel => {
                 if (channel.name == families[0]){
                     if (channel.type == "voice"){
-                        if (channel.parent.name.toString() == `Family ROOMS`){
+                        if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                             await channel.permissionOverwrites.forEach(async perm => {
                                 if (perm.type == `role`){
                                     let role_fam = message.guild.roles.find(r => r.id == perm.id);
@@ -2916,7 +2910,7 @@ if (message.content == '/archive'){
             await message.guild.channels.filter(async channel => {
                 if (channel.name == families[args[2]]){
                     if (channel.type == "voice"){
-                        if (channel.parent.name.toString() == `Family ROOMS`){
+                        if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                             await channel.permissionOverwrites.forEach(async perm => {
                                 if (perm.type == `role`){
                                     let role_fam = message.guild.roles.find(r => r.id == perm.id);
@@ -2957,7 +2951,7 @@ if (message.content == '/archive'){
         await message.guild.channels.filter(async channel => {
             if (channel.name == name){
                 if (channel.type == "voice"){
-                    if (channel.parent.name.toString() == `Family ROOMS`){
+                    if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                         family_channel = channel;
                         await channel.permissionOverwrites.forEach(async perm => {
                             if (perm.type == `role`){
@@ -2997,7 +2991,7 @@ if (message.content == '/archive'){
         let families = [];
         message.guild.channels.filter(async channel => {
             if (channel.type == "voice"){
-                if (channel.parent.name.toString() == `Family ROOMS`){
+                if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                     await channel.permissionOverwrites.forEach(async perm => {
                         if (perm.type == `member`){
                             if (perm.allowed.toArray().some(r => r == `CREATE_INSTANT_INVITE`)){
@@ -3031,7 +3025,7 @@ if (message.content == '/archive'){
             await message.guild.channels.filter(async channel => {
                 if (channel.name == families[0]){
                     if (channel.type == "voice"){
-                        if (channel.parent.name.toString() == `Family ROOMS`){
+                        if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                             fam_channel = channel;
                             await channel.permissionOverwrites.forEach(async perm => {
                                 if (perm.type == `role`){
@@ -3093,7 +3087,7 @@ if (message.content == '/archive'){
             await message.guild.channels.filter(async channel => {
                 if (channel.name == families[args[2]]){
                     if (channel.type == "voice"){
-                        if (channel.parent.name.toString() == `Family ROOMS`){
+                        if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                             let fam_channel = channel;
                             await channel.permissionOverwrites.forEach(async perm => {
                                 if (perm.type == `role`){
@@ -3144,7 +3138,7 @@ if (message.content == '/archive'){
         let families = [];
         message.guild.channels.filter(async channel => {
             if (channel.type == "voice"){
-                if (channel.parent.name.toString() == `Family ROOMS`){
+                if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                     await channel.permissionOverwrites.forEach(async perm => {
                         if (perm.type == `member`){
                             if (perm.allowed.toArray().some(r => r == `CREATE_INSTANT_INVITE`)){
@@ -3177,7 +3171,7 @@ if (message.content == '/archive'){
             await message.guild.channels.filter(async channel => {
                 if (channel.name == families[0]){
                     if (channel.type == "voice"){
-                        if (channel.parent.name.toString() == `Family ROOMS`){
+                        if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                             await channel.permissionOverwrites.forEach(async perm => {
                                 if (perm.type == `member`){
                                     if (!perm.allowed.toArray().some(r => r == `CREATE_INSTANT_INVITE`) && perm.allowed.toArray().some(r => r == `PRIORITY_SPEAKER`)){
@@ -3224,7 +3218,7 @@ if (message.content == '/archive'){
             await message.guild.channels.filter(async channel => {
                 if (channel.name == families[args[2]]){
                     if (channel.type == "voice"){
-                        if (channel.parent.name.toString() == `Family ROOMS`){
+                        if (channel.parent.name.toString() == `Комнатки для раздеваний`){
                             await channel.permissionOverwrites.forEach(async perm => {
                                 if (perm.type == `member`){
                                     if (!perm.allowed.toArray().some(r => r == `CREATE_INSTANT_INVITE`) && perm.allowed.toArray().some(r => r == `PRIORITY_SPEAKER`)){
@@ -3274,7 +3268,7 @@ if (message.content == '/archive'){
                     if (foundedusers_tag == null) foundedusers_tag = `НЕ НАЙДЕНЫ`;
                     if (foundedusers_nick == null) foundedusers_nick = `НЕ НАЙДЕНЫ`;
                     const embed = new Discord.RichEmbed()
-		    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+		    .setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
                     .addField(`BY NICKNAME`, foundedusers_nick, true)
                     .addField("BY DISCORD TAG", foundedusers_tag, true)
                     message.reply(`\`по вашему запросу найдена следующая информация:\``, embed); 
@@ -3295,7 +3289,7 @@ if (message.content == '/archive'){
                     if (foundedusers_tag == null) foundedusers_tag = `НЕ НАЙДЕНЫ`;
                     if (foundedusers_nick == null) foundedusers_nick = `НЕ НАЙДЕНЫ`;
                     const embed = new Discord.RichEmbed()
-		    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+		    .setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
                     .addField(`BY NICKNAME`, foundedusers_nick, true)
                     .addField("BY DISCORD TAG", foundedusers_tag, true)
                     message.reply(`\`по вашему запросу найдена следующая информация:\``, embed); 
@@ -3312,7 +3306,7 @@ if (message.content == '/archive'){
             if (foundedusers_tag == null) foundedusers_tag = `НЕ НАЙДЕНЫ`;
             if (foundedusers_nick == null) foundedusers_nick = `НЕ НАЙДЕНЫ`;
             const embed = new Discord.RichEmbed()
-	    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+	    .setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
             .addField(`BY NICKNAME`, foundedusers_nick, true)
             .addField("BY DISCORD TAG", foundedusers_tag, true)
             message.reply(`\`по вашему запросу найдена следующая информация:\``, embed); 
@@ -3345,7 +3339,7 @@ if (message.content == '/archive'){
             date = user.joinedAt
             let joindate = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
             const embed = new Discord.RichEmbed()
-            .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+            .setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
 	    .setColor("#FF0000")
             .setFooter(`Аккаунт пользователя: ${user.displayName}`, user.user.avatarURL)
             .setTimestamp()
@@ -3389,7 +3383,7 @@ if (message.content == '/archive'){
                 date = user.joinedAt
                 let joindate = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
                 const embed = new Discord.RichEmbed()
-                .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+                .setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
                 .setColor("#FF0000")
                 .setFooter(`Аккаунт пользователя: ${user.displayName}`, user.user.avatarURL)
                 .setTimestamp()
@@ -3434,10 +3428,10 @@ if (message.content == '/archive'){
     }
 
     if (message.content.toLowerCase().startsWith("/itester")){
-        if (message.guild.id == "355656045600964609") return message.reply("`команда работает только на тестовом сервере Scottdale Brotherhood.`", {embed: {
+        if (message.guild.id == "543500237306724393") return message.reply("`команда работает только на тестовом сервере Red-Rock.`", {embed: {
             color: 3447003,
             fields: [{
-                name: "`Scottdale Brotherhood - Сервер разработчиков`",
+                name: "`Red-Rock - Сервер разработчиков`",
                 value: "**Набор в тестеры закрыт!**"
             }]}}).then(msg => msg.delete(12000))
         if (message.member.roles.some(r => r.name == "Tester's Team ✔")){
@@ -3461,10 +3455,10 @@ if (message.content == '/archive'){
         let user = message.guild.member(message.mentions.users.first());
         if (!user) return message.react(`📛`)
         if (snyatie.has(message.author.id + `=>` + user.id)) return message.react(`🕖`)
-        let reqchat = message.guild.channels.find(c => c.name == `requests-for-roles`); // Найти чат на сервере.
+        let reqchat = message.guild.channels.find(c => c.name == `выдача-ролей`); // Найти чат на сервере.
         if(!reqchat){
-            message.reply(`\`Ошибка выполнения. Канал requests-for-roles не был найден!\``)
-            return console.error(`Канал requests-for-roles не был найден!`)
+            message.reply(`\`Ошибка выполнения. Канал выдача ролей не был найден!\``)
+            return console.error(`Канал выдача ролей не был найден!`)
         }
         let roleremove = user.roles.find(r => rolesgg.includes(r.name));
         if (!roleremove) return message.react(`📛`)
@@ -3484,7 +3478,6 @@ if (message.content == '/archive'){
                 .addField("Отправлено с канала", `<#${message.channel.id}>`)
                 .addField("Причина снятия роли", `${collected.first().content}`)
                 .addField("Информация", `\`[✔] - снять роль\`\n` + `\`[❌] - отказать в снятии роли\`\n` + `\`[D] - удалить сообщение\``)
-                .setFooter("© Support Team | by Kory_McGregor")
                 .setTimestamp()
                 reqchat.send(embed).then(async msgsen => {
                     answer.delete();
@@ -3521,13 +3514,13 @@ if (message.content == '/archive'){
             if (message.member.displayName.toLowerCase().includes("[" + manytags[i].toLowerCase()) || message.member.displayName.toLowerCase().includes(manytags[i].toLowerCase() + "]") || message.member.displayName.toLowerCase().includes("(" + manytags[i].toLowerCase()) || message.member.displayName.toLowerCase().includes(manytags[i].toLowerCase() + ")") || message.member.displayName.toLowerCase().includes("{" + manytags[i].toLowerCase()) || message.member.displayName.toLowerCase().includes(manytags[i].toLowerCase() + "}")){
                 let rolename = tags[manytags[i].toUpperCase()] // Указать название роли по соответствию с тэгом
                 let role = message.guild.roles.find(r => r.name == rolename); // Найти эту роль на discord сервере.
-                let reqchat = message.guild.channels.find(c => c.name == `requests-for-roles`); // Найти чат на сервере.
+                let reqchat = message.guild.channels.find(c => c.name == `выдача-ролей`); // Найти чат на сервере.
                 if (!role){
                     message.reply(`\`Ошибка выполнения. Роль ${rolename} не была найдена.\``)
                     return console.error(`Роль ${rolename} не найдена!`);
                 }else if(!reqchat){
-                    message.reply(`\`Ошибка выполнения. Канал requests-for-roles не был найден!\``)
-                    return console.error(`Канал requests-for-roles не был найден!`)
+                    message.reply(`\`Ошибка выполнения. Канал выдача-ролей не был найден!\``)
+                    return console.error(`Канал выдача-ролей не был найден!`)
                 }
                 if (message.member.roles.some(r => [rolename].includes(r.name))){
                     return message.react(`👌`) // Если роль есть, поставить окей.
@@ -3542,7 +3535,6 @@ if (message.content == '/archive'){
                 .addField("Роль для выдачи", `\`Роль для выдачи:\` <@&${role.id}>`)
                 .addField("Отправлено с канала", `<#${message.channel.id}>`)
                 .addField("Информация по выдачи", `\`[✔] - выдать роль\`\n` + `\`[❌] - отказать в выдачи роли\`\n` + `\`[D] - удалить сообщение\``)
-                .setFooter("© Support Team | by Kory_McGregor")
                 .setTimestamp()
                 reqchat.send(embed).then(async msgsen => {
                     await msgsen.react('✔')
@@ -3558,7 +3550,7 @@ if (message.content == '/archive'){
 });
 
 bot.on('guildMemberUpdate', async (oldMember, newMember) => {
-    if (newMember.guild.id != "355656045600964609") return // Сервер не 03!
+    if (newMember.guild.id != "543500237306724393") return // Сервер не 03!
     if (oldMember.roles.size == newMember.roles.size) return // Сменил ник или еще чет!
     if (newMember.user.bot) return // Бот не принимается!
     if (oldMember.roles.size < newMember.roles.size){
@@ -3647,7 +3639,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 bot.on('raw', async event => {
     if (!events.hasOwnProperty(event.t)) return; // Если не будет добавление или удаление смайлика, то выход
     const authorrisbot = new Discord.RichEmbed()
-    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+    .setAuthor(`© 2019 Xelene Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "")
     if (event.t == "MESSAGE_REACTION_ADD"){
         let event_guildid = event.d.guild_id // ID discord сервера
         let event_channelid = event.d.channel_id // ID канала
@@ -3663,7 +3655,7 @@ bot.on('raw', async event => {
         let message = await channel.fetchMessage(event_messageid); // Получить сообщение из канала
         let member = server.members.find(m => m.id == event_userid); // Получить пользователя с сервера
 
-        if (channel.name != `requests-for-roles`) return // Если название канала не будет 'requests-for-roles', то выйти
+        if (channel.name != `выдача-ролей`) return // Если название канала не будет 'выдача-ролей', то выйти
 
         if (event_emoji_name == "🇩"){
             if (!message.embeds[0]){
