@@ -938,7 +938,7 @@ bot.on('message', async message => {
             })  
             channel.send(`<@${message.author.id}> \`для команды поддержки\` <@&${moderator_role.id}>`, {embed: {
             color: 3447003,
-            title: "Обращение к поддержке Discord",
+            title: "Иди нахуй Discord",
             fields: [{
                 name: "Отправитель",
                 value: `**Пользователь:** <@${message.author.id}>`,
@@ -956,7 +956,7 @@ bot.on('message', async message => {
     if (message.content == '/hold'){
         if (!message.member.hasPermission("MANAGE_ROLES")) return message.delete();
         if (!message.channel.name.startsWith('ticket-')) return message.delete();
-        if (message.channel.topic == 'Жалоба закрыта.' || message.channel.topic == 'Жалоба на рассмотрении.') return message.delete();
+        if (message.channel.topic == 'Жалоба открыта.' || message.channel.topic == 'Жалоба сука на рассмотрении.') return message.delete();
         let memberid = 'не найден';
         await message.channel.permissionOverwrites.forEach(async perm => {
             if (perm.type == `member`){
@@ -1037,7 +1037,7 @@ bot.on('message', async message => {
         if (args[2] == 10) args[2] = 'октября';
         if (args[2] == 11) args[2] = 'ноября';
         if (args[2] == 12) args[2] = 'декабря';
-        if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
+        if (!message.member.hasPermission("SEND_MESSAGE")) return message.delete();
         let textforobz = "**  ╔┓┏╦━━╦┓╔┓╔━━╗ @everyone\n  ║┗┛║┗━╣┃║┃║╯╰║ @everyone\n  ║┏┓║┏━╣┗╣┗╣╰╯║ @everyone\n  ╚┛┗╩━━╩━╩━╩━━╝ @everyone**";
         const embed = new Discord.RichEmbed()
 	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
