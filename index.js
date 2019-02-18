@@ -1,11 +1,6 @@
 const Discord = require('discord.js'); // by Artemka076#6715
 const bot = new Discord.Client();
 const fs = require("fs");
-const Logger = require('./objects/logger');
-
-let requests = JSON.parse(fs.readFileSync("./database/requests.json", "utf8"));
-let blacklist = JSON.parse(fs.readFileSync("./database/blacklist names.json", "utf8"));
-let reqrem = JSON.parse(fs.readFileSync("./database/requests remove.json", "utf8"));
 
 let version = "8.0";
 let hideobnova = true;
@@ -27,7 +22,7 @@ let setembed_general = ["не указано", "не указано", "не ук
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 let setembed_addline = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 
-let serverid = '355656045600964609'
+let serverid = '507261769182609429'
 
 punishment_rep = ({
     "mute": "Вы были замучены в текстовых каналах.",
@@ -35,152 +30,134 @@ punishment_rep = ({
 })
 
 tags = ({
-    "ПРА-ВО": "⋆ The Board of State ⋆",
-    "ГЦЛ": "⋆ The Board of State ⋆",
-    "АШ": "⋆ The Board of State ⋆",
-    "ЦБ": "⋆ The Board of State ⋆",
+    "ПРА-ВО": "Сотрудник правительства",
+    "АШ": "Сотрудник автошколы",
+    "ЦБ": "Сотрудник банка",
+    "": "Не ясно",
 
-    "FBI": "⋆ Department of Justice ⋆",
-    "ФБР": "⋆ Department of Justice ⋆",
-    "LSPD": "⋆ Department of Justice ⋆",
-    "ЛСПД": "⋆ Department of Justice ⋆",
-    "SFPD": "⋆ Department of Justice ⋆",
-    "СФПД": "⋆ Department of Justice ⋆",
-    "LVPD": "⋆ Department of Justice ⋆",
-    "ЛВПД": "⋆ Department of Justice ⋆",
-    "SWAT": "⋆ Department of Justice ⋆",
-    "СВАТ": "⋆ Department of Justice ⋆",
-    "RCPD": "⋆ Department of Justice ⋆",
-    "РКПД": "⋆ Department of Justice ⋆",
+    "FBI": "Сотрудник ФБР",
+    "ФБР": "Сотрудник ФБР",
+    "LSPD": "Сотрудник LSPD",
+    "ЛСПД": "Сотрудник LSPD",
+    "SFPD": "Сотрудник SFPD",
+    "СФПД": "Сотрудник SFPD",
+    "LVPD": "Сотрудник LVPD",
+    "ЛВПД": "Сотрудник LVPD",
+    "RCPD": "Сотрудник RCSD",
+    "РКПД": "Сотрудник RCSD",
 
-    "LSA": "⋆ Department of Defence ⋆",
-    "ЛСА": "⋆ Department of Defence ⋆",
-    "SFA": "⋆ Department of Defence ⋆",
-    "СФА": "⋆ Department of Defence ⋆",
-    "LS-A": "⋆ Department of Defence ⋆",
-    "ЛС-А": "⋆ Department of Defence ⋆",
-    "SF-A": "⋆ Department of Defence ⋆",
-    "СФ-А": "⋆ Department of Defence ⋆",
-    "ТСР": "⋆ Department of Defence ⋆",
-    "ТЮРЬМА": "⋆ Department of Defence ⋆",
+    "LSA": "Военнослужащий LSa",
+    "ЛСА": "Военнослужащий LSa",
+    "SFA": "Военнослужащий SFa",
+    "СФА": "Военнослужащий SFa",
+    "LS-A": "Военнослужащий LSa",
+    "ЛС-А": "Военнослужащий LSa",
+    "SF-A": "Военнослужащий SFa",
+    "СФ-А": "Военнослужащий SFa",
+    "ТСР": "Сотрудник ТСР",
 
-    "LSMC": "⋆ Department of Health ⋆",
-    "ЛСМЦ": "⋆ Department of Health ⋆",
-    "SFMC": "⋆ Department of Health ⋆",
-    "СФМЦ": "⋆ Department of Health ⋆",
-    "LVMC": "⋆ Department of Health ⋆",
-    "ЛВМЦ": "⋆ Department of Health ⋆",
+    "LSMC": "Сотрудник LSMC",
+    "ЛСМЦ": "Сотрудник LSMC",
+    "SFMC": "Сотрудник SFMC",
+    "СФМЦ": "Сотрудник SFMC",
+    "LVMC": "Сотрудник LVMC",
+    "ЛВМЦ": "Сотрудник LVMC",
 
-    "R-LS": "⋆ Mass Media ⋆",
-    "RLS": "⋆ Mass Media ⋆",
-    "Р-ЛС": "⋆ Mass Media ⋆",
-    "РЛС": "⋆ Mass Media ⋆",
-    "R-SF": "⋆ Mass Media ⋆",
-    "RSF": "⋆ Mass Media ⋆",
-    "Р-СФ": "⋆ Mass Media ⋆",
-    "РСФ": "⋆ Mass Media ⋆",
-    "R-LV": "⋆ Mass Media ⋆",
-    "RLV": "⋆ Mass Media ⋆",
-    "Р-ЛВ": "⋆ Mass Media ⋆",
-    "РЛВ": "⋆ Mass Media ⋆",
+    "СМИСФ": "Сотрудник СМИ SF",
+    "СМИЛС": "Сотрудник СМИ LS",
+    "СМИЛВ": "Сотрудник СМИ LV",
+    "СМИ СФ": "Сотрудник СМИ SF",
+    "СМИ ЛС": "Сотрудник СМИ LS",
+    "СМИ ЛВ": "Сотрудник СМИ LV",
+	
+    "WMC": "Член мафии Warlock MC",
+    "W-MC": "Член мафии Warlock MC",
+    "WCM": "Член мафии Warlock MC",
+    "RM": "Член мафии Russian Mafia",
+    "РМ": "Член мафии Russian Mafia",
+    "LCN": "Член мафии La Cosa Nostra",
+    "ЛКН": "Член мафии La Cosa Nostra",
+    "YAKUZA": "Член мафии Yakuza",
+    "ЯКУДЗА": "Член мафии Yakuza",
+    "Y": "Член мафии Yakuza",
 
-    "WMC": "⋆ Warlock MC ⋆",
-    "W-MC": "⋆ Warlock MC ⋆",
-    "RM": "⋆ Russian Mafia ⋆",
-    "РМ": "⋆ Russian Mafia ⋆",
-    "LCN": "⋆ La Cosa Nostra ⋆",
-    "ЛКН": "⋆ La Cosa Nostra ⋆",
-    "YAKUZA": "⋆ Yakuza ⋆",
-    "ЯКУДЗА": "⋆ Yakuza ⋆",
 
-    "GROVE": "⋆ Grove Street Gang ⋆",
-    "ГРУВ": "⋆ Grove Street Gang ⋆",
-    "BALLAS": "⋆ East Side Ballas Gang ⋆",
-    "БАЛЛАС": "⋆ East Side Ballas Gang ⋆",
-    "VAGOS": "⋆ Vagos Gang ⋆",
-    "ВАГОС": "⋆ Vagos Gang ⋆",
-    "NW": "⋆ Night Wolfs ⋆",
-    "НВ": "⋆ Night Wolfs ⋆",
-    "RIFA": "⋆ Rifa Gang ⋆",
-    "РИФА": "⋆ Rifa Gang ⋆",
-    "AZTEC": "⋆ Aztecas Gang ⋆",  
-    "АЦТЕК": "⋆ Aztecas Gang ⋆",  
+    "GROVE": "Член банды Groove",
+    "ГРУВ": "Член банды Groove",
+    "BALLAS": "Член банды Ballas",
+    "БАЛЛАС": "Член банды Ballas",
+    "VAGOS": "Член банды Vagos",
+    "ВАГОС": "Член банды Vagos",
+    "RIFA": "Член банды Rifa",
+    "РИФА": "Член банды Rifa",
+    "AZTEC": "Член банды Aztecas",  
+    "АЦТЕК": "Член банды Aztecas",  
 });
 
 let manytags = [
-"ПРА-ВО",
-"ГЦЛ",
-"АШ",
-"ЦБ",
+    "ПРА-ВО",
+    "АШ",
+    "ЦБ",
 
-"FBI",
-"ФБР",
-"LSPD",
-"ЛСПД",
-"SFPD",
-"СФПД",
-"LVPD",
-"ЛВПД",
-"SWAT",
-"СВАТ",
-"RCPD",
-"РКПД",
+    "FBI",
+    "ФБР",
+    "LSPD",
+    "ЛСПД",
+    "SFPD",
+    "СФПД",
+    "LVPD",
+    "ЛВПД",
+    "RCPD",
+    "РКПД",
 
-"LSA",
-"ЛСА",
-"SFA",
-"СФА",
-"LS-A",
-"ЛС-А",
-"SF-A",
-"СФ-А",
-"ТСР",
-"ТЮРЬМА",
+    "LSA",
+    "ЛСА",
+    "SFA",
+    "СФА",
+    "LS-A",
+    "ЛС-А",
+    "SF-A",
+    "СФ-А",
+    "ТСР",
 
-"LSMC",
-"ЛСМЦ",
-"SFMC",
-"СФМЦ",
-"LVMC",
-"ЛВМЦ",
+    "LSMC",
+    "ЛСМЦ",
+    "SFMC",
+    "СФМЦ",
+    "LVMC",
+    "ЛВМЦ",
 
-"R-LS",
-"RLS",
-"Р-ЛС",
-"РЛС",
-"R-SF",
-"RSF",
-"Р-СФ",
-"РСФ",
-"R-LV",
-"RLV",
-"Р-ЛВ",
-"РЛВ",
+    "СМИСФ",
+    "СМИЛС",
+    "СМИЛВ",
+    "СМИ СФ",
+    "СМИ ЛС",
+    "СМИ ЛВ",
+	
+    "WMC",
+    "W-MC",
+    "WCM",
+    "RM",
+    "РМ",
+    "LCN",
+    "ЛКН",
+    "YAKUZA",
+    "ЯКУДЗА",
+    "Y",
 
-"WMC",
-"W-MC",
-"RM",
-"РМ",
-"LCN",
-"ЛКН",
-"YAKUZA",
-"ЯКУДЗА",
 
-"GROVE",
-"ГРУВ",
-"BALLAS",
-"БАЛЛАС",
-"VAGOS",
-"ВАГОС",
-"AZTEC",  
-"АЦТЕК",
-"RIFA",
-"РИФА",
-"NW",
-"НВ",
+    "GROVE",
+    "ГРУВ",
+    "BALLAS",
+    "БАЛЛАС",
+    "VAGOS",
+    "ВАГОС",
+    "RIFA",
+    "РИФА",
+    "AZTEC",  
+    "АЦТЕК",  
 ];
-let rolesgg = ["⋆ The Board of State ⋆", "⋆ Department of Justice ⋆", "⋆ Department of Defence ⋆", "⋆ Department of Health ⋆", "⋆ Mass Media ⋆", "⋆ Warlock MC ⋆", "⋆ Russian Mafia ⋆", "⋆ La Cosa Nostra ⋆", "⋆ Yakuza ⋆", "⋆ Grove Street Gang ⋆", "⋆ East Side Ballas Gang ⋆", "⋆ Vagos Gang ⋆", "⋆ Aztecas Gang ⋆", "⋆ Rifa Gang ⋆", "⋆ Night Wolfs ⋆"]
-let canremoverole = ["✫Deputy Leader✫", "✵Leader✵", "✮Ministers✮", "✔ Helper ✔"];
+let rolesgg = ["Сотрудник правительства", "Сотрудник автошколы", "Сотрудник банка", "Член банды Groove", "Член банды Ballas", "Член банды Vagos", "Член банды Rifa", "Член банды Aztecas", "Член мафии Warlock MC", "Член мафии Russian Mafia", "Член мафии La Cosa Nostra", "Член мафии Yakuza", "Сотрудник СМИ SF", "Сотрудник СМИ LS", "Сотрудник СМИ LV", "Сотрудник LSMC", "Сотрудник SFMC", "Сотрудник LVMC", "Сотрудник ФБР", "Сотрудник LSPD", "Сотрудник SFPD", "Сотрудник SFPD", "Сотрудник RCSD", "Военнослужащий LSa", "Военнослужащий SFa", "Сотрудник ТСР",]
 
 const events = {
     MESSAGE_REACTION_ADD: 'messageReactionAdd',
@@ -556,7 +533,7 @@ bot.on('message', async message => {
             }
             if (!args[2]) return message.delete();
             if (!args[3]) return message.delete();
-            if (args[2] != "493459379878625320" && args[2] != "521639035442036736"){
+            if (args[2] != "543862677328494612" && args[2] != "521639035442036736"){
                 message.channel.send(`\`[ERROR]\` ${message.member} \`сервер '${args[2]}' не назначен как БД.\``);
                 return message.delete();
             }
@@ -597,7 +574,7 @@ bot.on('message', async message => {
             if (!args[3]) return message.delete();
             if (!args[4]) return message.delete();
             if (!args[5]) return message.delete();
-            if (args[2] != "493459379878625320" && args[2] != "521639035442036736"){
+            if (args[2] != "543862677328494612" && args[2] != "521639035442036736"){
                 message.channel.send(`\`[ERROR]\` ${message.member} \`сервер '${args[2]}' не назначен как БД.\``);
                 return message.delete();
             }
@@ -649,7 +626,7 @@ bot.on('message', async message => {
             if (!args[2]) return message.delete();
             if (!args[3]) return message.delete();
             if (!args[4]) return message.delete();
-            if (args[2] != "493459379878625320" && args[2] != "521639035442036736"){
+            if (args[2] != "543862677328494612" && args[2] != "521639035442036736"){
                 message.channel.send(`\`[ERROR]\` ${message.member} \`сервер '${args[2]}' не назначен как БД.\``);
                 return message.delete();
             }
@@ -689,7 +666,7 @@ bot.on('message', async message => {
 
 bot.on('message', async message => {
     if (message.channel.type == "dm") return // Если в ЛС, то выход.
-    if (message.guild.id != serverid && message.guild.id != "493459379878625320") return
+    if (message.guild.id != serverid && message.guild.id != "543862677328494612") return
     if (message.type === "PINS_ADD") if (message.channel.name == "requests-for-roles") message.delete();
     if (message.content == "/ping") return message.reply("`я онлайн!`") && console.log(`Бот ответил ${message.member.displayName}, что я онлайн.`)
     if (message.author.id == bot.user.id) return
@@ -762,7 +739,7 @@ bot.on('message', async message => {
             }
         });
         // UNWARN SYSTEM
-        let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
+        let dataserver = bot.guilds.find(g => g.id == "543862677328494612");
         dataserver.channels.forEach(async channel => {
             if (channel.type=="text"){
                 if (channel.name != 'administration' && channel.name != 'accounts' && channel.name != 'bad-words' && channel.name != 'err-code' && channel.name != 'config'){
@@ -837,7 +814,7 @@ bot.on('message', async message => {
         }, 300000);
         let id_mm;
         let rep_message;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_channel = db_server.channels.find(c => c.name == "config");
         await db_channel.fetchMessages().then(async messages => {
             let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
@@ -850,7 +827,7 @@ bot.on('message', async message => {
         });
         if (!rep_message){
             await message.channel.send(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера !!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: 0**\n` +
             `**Необработанных модераторами: 0**\n` +
@@ -869,7 +846,7 @@ bot.on('message', async message => {
 	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера !!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${+info_rep[0] + 1}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] + 1}**\n` +
@@ -964,7 +941,7 @@ bot.on('message', async message => {
             }
         });
         let rep_message;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_channel = db_server.channels.find(c => c.name == "config");
         await db_channel.fetchMessages().then(async messages => {
             let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
@@ -986,7 +963,7 @@ bot.on('message', async message => {
 	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-        `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+        `**Приветствую! Вы попали в канал поддержки сервера !!**\n` +
         `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
         `**Количество вопросов за все время: ${info_rep[0]}**\n` +
         `**Необработанных модераторами: ${+info_rep[1] - 1}**\n` +
@@ -1043,14 +1020,14 @@ bot.on('message', async message => {
 	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
         .setTitle("**Заявления на пост модератора группы**")
         .setColor("#FF8E01")
-        .setDescription("**Мы вернулись, что бы обрадовать вас! Ведь " + args[1] + " " + args[2] + " пройдет набор на пост Spectator'a нашей группы Discord!\nВы сможете стать одним из нас, почуствовать себя в роли модератора группы, последить за игроками, а так же получить доступ к супер секретным функциям канала Scottdale Brotherhood. Все, что вам нужно будет делать, это наводить порядок в нашей группе и помогать игрокам!**")
+        .setDescription("**Мы вернулись, что бы обрадовать вас! Ведь " + args[1] + " " + args[2] + " пройдет набор на пост Spectator'a нашей группы Discord!\nВы сможете стать одним из нас, почуствовать себя в роли модератора группы, последить за игроками, а так же получить доступ к супер секретным функциям канала !. Все, что вам нужно будет делать, это наводить порядок в нашей группе и помогать игрокам!**")
         .setFooter("Предоставил: Kory_McGregor", "https://cdn.discordapp.com/avatars/336207279412215809/211ab8ef6f7b4dfd9d3bfbf45999eea0.png?size=128")
         .setImage("https://i.imgur.com/nFD61xf.gif")
         .setTimestamp()
         .addBlankField(false)
         .addField("**Что нужно, что бы попасть к нам?**", `**1) Вам нужно будет знать правила нашего discord-сервера! Если вы хотите стать модератором, то вы должны знать за что идут наказания? Не правда ли?\n2) Вам нужно понимать систему модерирования. Ведь просто ходить по каналам и орать на нарушителя "Прекрати!" будет выглядить глупо.\n3) Наметить себе будущую должность. Один модератор не может за всем уследить, кто-то может следить за чатом, когда другой сидит в канале и поет песни для наших участников сервера Discord.\n4) Быть дружелюбным и разумным! Одна из самых главных особенностей! Мы же помогаем игрокам! И даже если у них поломается биндер и они нафлудят в чат, более разумным будет удалить сообщение от пользователя, чем выдать мут за флуд!\n5) Не делать того, что не нужно! В будущем вы можете модерировать свой текстовой канал! ~~И делать обзвоны на редактора канала.~~ Стоп-стоп-стоп.. Зачем? Вы не справляетесь? Вам нужно лишнее внимание?! Пожалуй этого делать не стоит!**`)
         .addBlankField(false)
-        .addField("**Требования к участникам**", "**1) Не состоять в черном списке Scottdale [!]\n2) Быть активным участником нашей группы.\n3) У вас не должно быть грубых нарушений.\n4) Быть адекватным, коммуникабельным, ответственным.\n5) Не быть действующим лидером, министром, администратором.**")
+        .addField("**Требования к участникам**", "**1) Не состоять в черном списке [!]\n2) Быть активным участником нашей группы.\n3) У вас не должно быть грубых нарушений.\n4) Быть адекватным, коммуникабельным, ответственным.\n5) Не быть действующим лидером, министром, администратором.**")
         .addBlankField(false)
         .addField("**Дополнительные ссылки**", "**Оставить заявление вы можете нажав на [выделенный текст](" + args[3] + ").**");
         message.channel.send(textforobz, {embed});
@@ -1068,7 +1045,7 @@ bot.on('message', async message => {
             }
         });
         let rep_message;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_channel = db_server.channels.find(c => c.name == "config");
         await db_channel.fetchMessages().then(async messages => {
             let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
@@ -1090,7 +1067,7 @@ bot.on('message', async message => {
 	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера !!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] + 1}**\n` +
@@ -1207,7 +1184,7 @@ bot.on('message', async message => {
             }
         });
         let rep_message;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_channel = db_server.channels.find(c => c.name == "config");
         await db_channel.fetchMessages().then(async messages => {
             let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
@@ -1230,7 +1207,7 @@ bot.on('message', async message => {
         .setImage("https://imgur.com/LKDbJeM.gif");
         if (message.channel.topic == 'Жалоба на рассмотрении.'){
             rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера !!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${info_rep[1]}**\n` +
@@ -1238,7 +1215,7 @@ bot.on('message', async message => {
             `**Закрытых: ${+info_rep[3] + 1}**`, imageemb)
         }else{
             rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера !!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] - 1}**\n` +
@@ -1311,17 +1288,17 @@ bot.on('message', async message => {
         return message.delete();
     }
 
-    let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
-    let scottdale = bot.guilds.find(g => g.id == "355656045600964609");
+    let dataserver = bot.guilds.find(g => g.id == "543862677328494612");
+    let scottdale = bot.guilds.find(g => g.id == "507261769182609429");
     if (!dataserver){
-        message.channel.send(`\`Data-Server of Scottdale не был загружен!\nПередайте это сообщение техническим администраторам Discord:\`<@336207279412215809>, <@402092109429080066>`)
+        message.channel.send(`\`Data-Server не был загружен!\nПередайте это сообщение техническим администраторам Discord:\`<@449307837399695365>`)
         console.error(`Процесс завершен. Data-Server не найден.`)
         return bot.destroy();
     }
 	
     if (message.content.startsWith("/setup")){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1436,7 +1413,7 @@ bot.on('message', async message => {
 	
     if (message.content == '/embhelp'){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1497,7 +1474,7 @@ bot.on('message', async message => {
 
     if (message.content.startsWith("/embsetup")){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1566,7 +1543,7 @@ bot.on('message', async message => {
 
     if (message.content.startsWith("/embfield")){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1648,7 +1625,7 @@ bot.on('message', async message => {
 
     if (message.content == "/embsend"){
         let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+        let db_server = bot.guilds.find(g => g.id == "543862677328494612");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
         let acc_creator = db_server.channels.find(c => c.name == message.author.id);
         if (acc_creator){
@@ -1723,7 +1700,7 @@ if (message.content.startsWith("/mwarn")){
     message.reply(`\`ошибка выполнения! Вы использовали запрещенный символ!\``).then(msg => msg.delete(9000));
     return message.delete();
   }
-  let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+  let db_server = bot.guilds.find(g => g.id == "543862677328494612");
   let db_parent = db_server.channels.find(c => c.name == 'db_users');
   let acc = db_server.channels.find(c => c.name == user.id);
   if (!acc){
@@ -1892,7 +1869,7 @@ if (message.content.startsWith("/unwarn")){
       message.reply(`\`модератору нельзя снимать предупреждения!\``).then(msg => msg.delete(9000));
       return message.delete();
     }
-    let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
+    let dataserver = bot.guilds.find(g => g.id == "543862677328494612");
     let report_channel = dataserver.channels.find(c => c.name == user.id);
     if (!report_channel){
       message.reply(`\`у пользователя нет предупреждений!\``).then(msg => msg.delete(9000));
@@ -1963,7 +1940,7 @@ if (message.content.startsWith("/unwarn")){
       message.reply(`\`недостаточно прав доступа к данному разделу!\``).then(msg => msg.delete(9000));
       return message.delete();
     }
-    let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
+    let dataserver = bot.guilds.find(g => g.id == "543862677328494612");
     let report_channel = dataserver.channels.find(c => c.name == user.id);
     if (!report_channel){
       message.reply(`\`у пользователя нет предупреждений!\``).then(msg => msg.delete(9000));
@@ -2037,7 +2014,7 @@ if (message.content.startsWith("/getmwarns")){
     return message.delete();
   }
   if (user.id == message.author.id){
-    let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+    let db_server = bot.guilds.find(g => g.id == "543862677328494612");
     let acc = db_server.channels.find(c => c.name == user.id);
     if (!acc){
       message.reply(`\`у вас нет текущих предупреждений.\``).then(msg => msg.delete(12000));
@@ -2089,7 +2066,7 @@ if (message.content.startsWith("/getmwarns")){
       message.reply(`\`у вас нет прав модератора для просмотра чужой статистики.\``, authorrisbot).then(msg => msg.delete(7000));
       return message.delete();
     }
-    let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+    let db_server = bot.guilds.find(g => g.id == "543862677328494612");
     let acc = db_server.channels.find(c => c.name == user.id);
     if (!acc){
       message.reply(`\`у пользователя нет предупреждений.\``).then(msg => msg.delete(12000));
@@ -2146,7 +2123,7 @@ if (message.content.startsWith("/getwarns")){
     return message.delete();
   }
   if (user.id == message.author.id){
-    let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+    let db_server = bot.guilds.find(g => g.id == "543862677328494612");
     let acc = db_server.channels.find(c => c.name == user.id);
     if (!acc){
       message.reply(`\`у вас нет текущих предупреждений.\``).then(msg => msg.delete(12000));
@@ -2205,7 +2182,7 @@ if (message.content.startsWith("/getwarns")){
       message.reply(`\`у вас нет прав модератора для просмотра чужой статистики.\``, authorrisbot).then(msg => msg.delete(7000));
       return message.delete();
     }
-    let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+    let db_server = bot.guilds.find(g => g.id == "543862677328494612");
     let acc = db_server.channels.find(c => c.name == user.id);
     if (!acc){
       message.reply(`\`у пользователя нет предупреждений.\``).then(msg => msg.delete(12000));
@@ -2290,7 +2267,7 @@ if (message.content.startsWith("/warn")){
     message.reply(`\`ошибка выполнения! Вы использовали запрещенный символ!\``).then(msg => msg.delete(9000));
     return message.delete();
   }
-  let db_server = bot.guilds.find(g => g.id == "493459379878625320");
+  let db_server = bot.guilds.find(g => g.id == "543862677328494612");
   let db_parent = db_server.channels.find(c => c.name == 'db_users');
   let acc = db_server.channels.find(c => c.name == user.id);
   if (!acc){
@@ -2385,7 +2362,7 @@ if (message.content.startsWith("/warn")){
             return message.delete();
         }
         let password = args.slice(1).join(" ");
-        if (password != `${message.author.id[0]}${message.author.id}${message.author.id[1]} 2783652 SCOTTDALE`) return message.delete();
+        if (password != `${message.author.id[0]}${message.author.id}${message.author.id[1]} 2783652 `) return message.delete();
         message.reply(`\`успешно авторизован в системе.\``);
         dspanel.add(message.author.id);
         return message.delete();
@@ -3434,10 +3411,10 @@ if (message.content == '/archive'){
     }
 
     if (message.content.toLowerCase().startsWith("/itester")){
-        if (message.guild.id == "355656045600964609") return message.reply("`команда работает только на тестовом сервере Scottdale Brotherhood.`", {embed: {
+        if (message.guild.id == "507261769182609429") return message.reply("`команда работает только на тестовом сервере !.`", {embed: {
             color: 3447003,
             fields: [{
-                name: "`Scottdale Brotherhood - Сервер разработчиков`",
+                name: "`! - Сервер разработчиков`",
                 value: "**Набор в тестеры закрыт!**"
             }]}}).then(msg => msg.delete(12000))
         if (message.member.roles.some(r => r.name == "Tester's Team ✔")){
@@ -3558,7 +3535,7 @@ if (message.content == '/archive'){
 });
 
 bot.on('guildMemberUpdate', async (oldMember, newMember) => {
-    if (newMember.guild.id != "355656045600964609") return // Сервер не 03!
+    if (newMember.guild.id != "507261769182609429") return // Сервер не 03!
     if (oldMember.roles.size == newMember.roles.size) return // Сменил ник или еще чет!
     if (newMember.user.bot) return // Бот не принимается!
     if (oldMember.roles.size < newMember.roles.size){
